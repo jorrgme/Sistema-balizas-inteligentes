@@ -2,8 +2,8 @@ import machine
 from network import WLAN
 
 # boot.py -- run on boot-up
-SSID = 'MOVISTAR_6C62'
-AUTH = 'C066CF732354AEE45C16'
+SSID = '###############'
+AUTH = '#########################'
 
 wlan = WLAN(mode=WLAN.STA)
 
