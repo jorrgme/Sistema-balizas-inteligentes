@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Configurar AP</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" href="/css/icon.png">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info text-white">
+      <h1 id="field1">Control Earth City &nbsp;</h1>
+      <img src="/css/icon.png" height="42" width="42">
+      <h6 class="text-white" style="margin-left: 5px; margin-top: 5px;">|</h6>
+      <a class="nav-item nav-link active text-white" href="/">Home <span class="sr-only">(current)</span></a>
+      <h6 class="text-white" style="margin-top: 5px">|</h6>
+      <a class="nav-item nav-link active text-white" href="#">Configuración</a>
+    </nav>
+    <div class="container">
+      <h3>Modificación configuración AP</h3>
+      <hr>
+      <form action="/config" method="post">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+
+            <label for="topics">Topic sobre el que modificar los datos</label>
+            <select class="custom-select my-1 mr-sm-2" name="topics">
+              <% if(selected_sem){ %>
+                <option value="traffic_lights" selected>Semáforos</option>
+                <option value="garbage_load">Recogida de basura</option>
+                <option value="speed_limit">Límite de velocidad</option>
+              <%}else if(selected_gar){%>
+                <option value="traffic_lights">Semáforos</option>
+                <option value="garbage_load" selected>Recogida de basura</option>
+                <option value="speed_limit">Límite de velocidad</option>
+              <%}else if(selected_lim){%>
+                <option value="traffic_lights">Semáforos</option>
+                <option value="garbage_load">Recogida de basura</option>
+                <option value="speed_limit" selected>Límite de velocidad</option>
+              <%}else{%>
+                <option value="traffic_lights">Semáforos</option>
+                <option value="garbage_load">Recogida de basura</option>
+              <%}%>
+            </select>
+            <label for="apIdText">Identificador del AP</label>
+            <input type="text" name="apIdText" value="" class="form-control col-md-3">
+            <input type="submit" class="btn btn-primary" value="Enviar" style="margin-top:5px;">
+          </form>
+        </div>
+        <div class="form-group col-md-1"></div>
+        <div class="form-group col">
+          <div class="row">
+            <label for="subtopic1" style="margin: 5px;">Subtopic 1</label>
+            <input type="text" name="subtopic1" value="" class="form-control col-md-3" style="margin: 5px;">
+            <label for="value1" style="margin: 5px;">Valor 1</label>
+            <input type="text" name="value1" value="" class="form-control col-md-3" style="margin: 5px;">
+          </div>
+          <div class="row">
+            <label for="apIdText" style="margin: 5px;">Subtopic 2</label>
+            <input type="text" name="subtopic2" value="" class="form-control col-md-3" style="margin: 5px;">
+            <label for="apIdText" style="margin: 5px;">Valor 2</label>
+            <input type="text" name="value2" value="" class="form-control col-md-3" style="margin: 5px;">
+          </div>
+          <div class="row">
+            <label for="apIdText" style="margin: 5px;">Subtopic 3</label>
+            <input type="text" name="subtopic3" value="" class="form-control col-md-3" style="margin: 5px;">
+            <label for="apIdText" style="margin: 5px;">Valor 3</label>
+            <input type="text" name="value3" value="" class="form-control col-md-3" style="margin: 5px;">
+          </div>
+        </div>
+     </div>
+     <% if(confirmado){%>
+       alert('Recibida confirmación de configuración desde el AP');
+     <%}%>
+    </div>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" href="/css/icon.png">
+    <title>Earth Control</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info text-white">
+      <h1 id="field1">Control Earth City &nbsp;</h1>
+      <img src="/css/icon.png" height="42" width="42">
+      <h6 class="text-white" style="margin-left: 5px; margin-top: 5px;">|</h6>
+      <a class="nav-item nav-link active text-white" href="#">Home <span class="sr-only">(current)</span></a>
+      <h6 class="text-white" style="margin-top: 5px">|</h6>
+      <a class="nav-item nav-link active text-white" href="/config">Configuración</a>
+    </nav>
+    <div class="container">
+        <!--Form de arriba-->
+        <h3>Consulta de datos</h3>
+        <div class="form-row">
+            <div class="form-group col">
+            <form action="/" method="post">
+              <label for="topics" id="label_topics" style="display:block">Topic de interés</label>
+              <select class="custom-select my-1 mr-sm-2" name="topics">
+                <% if(selected_sem){ %>
+                  <option value="traffic_lights" selected>Semáforos</option>
+                  <option value="garbage_load">Recogida de basura</option>
+                  <option value="speed_limit">Límite de velocidad</option>
+                <%}else if(selected_gar){%>
+                  <option value="traffic_lights">Semáforos</option>
+                  <option value="garbage_load" selected>Recogida de basura</option>
+                  <option value="speed_limit">Límite de velocidad</option>
+                <%}else if(selected_lim){%>
+                  <option value="traffic_lights">Semáforos</option>
+                  <option value="garbage_load">Recogida de basura</option>
+                  <option value="speed_limit" selected>Límite de velocidad</option>
+                <%}else{%>
+                  <option value="traffic_lights">Semáforos</option>
+                  <option value="garbage_load">Recogida de basura</option>
+                  <option value="speed_limit">Límite de velocidad</option>
+                <%}%>
+              </select>
+              <input type="submit" class="btn btn-primary" value="Enviar">
+
+          </div>
+          <div class="form-group col">
+            <label for="apID" id="label_apID" style="display:block">ID del punto de acceso</label>
+            <input type="text" class="form-control" style="display:block; margin-top:2%;" name="ap_ID" id="ap_ID" value="<%=apID%>">
+            <small id="apIDHelp" class="form-text text-muted">Si dejas este campo vacío, responderá el AP más cercano</small>
+          </div>
+          </form>
+        <div class="col-md-12"><hr></div>
+        </div>
+        <!--Resultados-->
+        <div class="form-row">
+          <div class="form-group col">
+            <form class="" action="index.html" method="post">
+              <div class="row">
+                <div class="col">
+                <% if(selected_sem){%>
+                  <h4>Datos recibidos: </h4>
+                  <label for="time_remaining" id="label_time" style="display:block">Tiempo restante semáforo</label>
+                  <input type="text" class="form-control" style="display:block" name="time_remaining" id="time_remaining" value="<% if(time_remaining !== null){ %><%= time_remaining %><% } %> segundos">
+                  <label for="state" id="label_state" style="display:block">Estado semáforo</label>
+                  <input type="text" class="form-control" style="display:block; background-color:<% if(state !== "emergency"){ %><%= state %><% } else{%><%="yellow"%><%}%>" name="state" id="state" value=<% if(state == "emergency"){ %><%= "Emergencia" %><% } %>>
+                  <label for="pedestrians" id="label_pedestrians" style="display:block">Personas esperando para cruzar</label>
+                  <input type="text" class="form-control" style="display:block" name="pedestrians" id="pedestrians" value="<% if(pedestrians !== null){ %><%= pedestrians %><% } %> ">
+                <%}else{%>
+                  <label for="time_remaining" id="label_time" style="display:none">Tiempo restante semáforo</label>
+                  <input type="text" class="form-control" style="display:none" name="time_remaining" id="time_remaining" value="<% if(time_remaining !== null){ %><%= time_remaining %><% } %> segundos">
+                  <label for="state" id="label_state" style="display:none">Estado semáforo</label>
+                  <input type="text" class="form-control" style="display:none" name="state" id="state">
+                  <label for="pedestrians" id="label_time" style="display:none">Tiempo restante semáforo</label>
+                  <input type="text" class="form-control" style="display:none" name="pedestrians" id="pedestrians" value="<% if(pedestrians !== null){ %><%= pedestrians %><% } %>">
+                <%}%>
+                <%if(selected_gar){%>
+                  <h4>Datos recibidos: </h4>
+                  <label for="load" id="label_load" style="display:block">Carga del contenedor</label>
+                  <input type="text" class="form-control" style="display:block" name="load" id="load" value="<% if(load !== null){ %><%= load %><% } %> % de capacidad">
+                  <label for="type" id="label_type" style="display:block">Tipo de contenedor</label>
+                  <input type="text" class="form-control" style="display:block" name="type" id="type" value="<% if(type !== null){ %><%= type %><% } %>">
+
+                  <label for="type" id="label_orden">Orden al camión</label>
+                  <div class="row">
+                    <div class="col">
+                      <input type="text" class="form-control" name="orden" id="orden" value="<% if(load >= 60){ %><%= "PARAR" %><%}else{%><%="NO PARAR"%><%}%>">
+                    </div>
+                    <%if(load>=60){%>
+                      <img src="/css/stop.png" alt="Stop signal" height="42" width="42">
+                    <%}else{%>
+                      <img src="/css/flecha.png" alt="Flecha signal" height="42" width="42">
+                    <%}%>
+                </div>
+                <%}else{%>
+                  <label for="load" id="label_load" style="display:none">Carga del contenedor</label>
+                  <input type="text" class="form-control" style="display:none" name="load" id="load" value="<% if(load !== null){ %><%= load %><% } %> % de capacidad">
+                  <label for="type" id="label_type" style="display:none">Tipo de contenedor</label>
+                  <input type="text" class="form-control" style="display:none" name="type" id="type" value="<% if(type !== null){ %><%= type %><% } %>">
+                <%}%>
+                <%if(selected_lim){%>
+                  <h4>Datos recibidos: </h4>
+                  <label for="road" id="label_road" style="display:block">Tipo de vía</label>
+                  <input type="text" class="form-control" style="display:block" name="road" id="road" value="<% if(road !== null){ %><%= road %><% } %>">
+                  <label for="limit" id="label_limit" style="display:block">Límite de velocidad</label>
+                  <input type="text" class="form-control" style="display:block" name="limit" id="limit" value="<% if(limit !== null){ %><%= limit %><% } %> km/h">
+                <%}%>
+                </div>
+                <div class="col">
+                  <% if(selected_sem){%>
+                    <h4>Datos del punto de acceso: </h4>
+                    <label for="ap_id" id="label_id" style="display:block">Identificador del AP</label>
+                    <input type="text" class="form-control" style="display:block" name="ap_id" id="ap_id" value="<% if(ap_id !== null){ %><%= ap_id %><% } %>">
+                    <label for="coordinates" id="label_coordinates" style="display:block">Coordenadas</label>
+                    <input type="text" class="form-control" style="display:block" name="coordinates" id="coordinates" value="<% if(coordinates !== null){ %><%= coordinates %><% } %>">
+
+                  <%}else{%>
+                    <label for="ap_id" id="label_id" style="display:none">Identificador del AP</label>
+                    <input type="text" class="form-control" style="display:none" name="ap_id" id="ap_id" value="<% if(ap_id !== null){ %><%= ap_id %><% } %>">
+                    <label for="coordinates" id="label_coordinates" style="display:none">Coordenadas</label>
+                    <input type="text" class="form-control" style="display:none" name="coordinates" id="coordinates" value="<% if(coordinates !== null){ %><%= coordinates %><% } %>">
+                  <%}%>
+                  <%if(selected_gar){%>
+                    <h4>Datos del punto de acceso: </h4>
+                    <label for="ap_id" id="label_id" style="display:block">Identificador del AP</label>
+                    <input type="text" class="form-control" style="display:block" name="ap_id" id="ap_id" value="<% if(ap_id !== null){ %><%= ap_id %><% } %>">
+                    <label for="coordinates" id="label_coordinates" style="display:block">Coordenadas</label>
+                    <input type="text" class="form-control" style="display:block" name="coordinates" id="coordinates" value="<% if(coordinates !== null){ %><%= coordinates %><% } %>">
+                  <%}else{%>
+                    <label for="ap_id" id="label_id" style="display:none">Identificador del AP</label>
+                    <input type="text" class="form-control" style="display:none" name="ap_id" id="ap_id" value="<% if(ap_id !== null){ %><%= ap_id %><% } %>">
+                    <label for="coordinates" id="label_coordinates" style="display:none">Coordenadas</label>
+                    <input type="text" class="form-control" style="display:none" name="coordinates" id="coordinates" value="<% if(coordinates !== null){ %><%= coordinates %><% } %>">
+                  <%}%>
+                  <%if(selected_lim){%>
+                    <h4>Datos del punto de acceso: </h4>
+                    <label for="ap_id" id="label_id" style="display:block">Identificador del AP</label>
+                    <input type="text" class="form-control" style="display:block" name="ap_id" id="ap_id" value="<% if(ap_id !== null){ %><%= ap_id %><% } %>">
+                    <label for="coordinates" id="label_coordinates" style="display:block">Coordenadas</label>
+                    <input type="text" class="form-control" style="display:block" name="coordinates" id="coordinates" value="<% if(coordinates !== null){ %><%= coordinates %><% } %>">
+                  <%}%>
+                </div>
+                <div class="col float-right">
+                  <%if(selected_gar || selected_sem || selected_lim){%>
+                  <h4>Localización: </h4>
+                  <% coordinates = coordinates.split(",")%>
+                  <iframe width="400" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=-0.5774688720703126%2C39.38765194764913%2C-0.22384643554687503%2C39.558059470852434&amp;layer=mapnik&amp;marker=<%=coordinates[0]%>%2C<%=coordinates[1]%>"
+                    style="border: 1px solid black">
+                  </iframe>
+                </div>
+                <%}%>
+            </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>
